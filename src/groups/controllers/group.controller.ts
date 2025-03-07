@@ -22,7 +22,8 @@ export class GroupController {
 
   @Get()
   async getAllGroups() {
-    return this.groupService.getAllGroups();
+    const groups = this.groupService.getAllGroups();
+    return groups;
   }
 
   @Get(':id')

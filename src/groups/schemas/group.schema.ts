@@ -3,7 +3,16 @@ import { Document } from 'mongoose';
 import * as mongoose from 'mongoose';
 import { Blog } from '../../blogs/schemas/blog.schema';
 
-@Schema({ collection: 'groups', timestamps: true })
+@Schema({
+  collection: 'groups',
+  versionKey: false,
+  timestamps: {
+    createdAt: 'created_at',
+    updatedAt: 'updated_at',
+  },
+  toJSON: { virtuals: true }, // تمكين الـ Virtuals عند التحويل إلى JSON
+  toObject: { virtuals: true }, // تمكين الـ Virtuals عند التحويل إلى Object
+})
 export class Group extends Document {
   @Prop({ required: true, type: String })
   name: string;
@@ -13,4 +22,15 @@ export class Group extends Document {
   blogs: Blog[];
 }
 
-export const GroupSchema = SchemaFactory.createForClass(Group);
+const GroupSchema = SchemaFactory.createForClass(Group);
+
+//  Virtual باسم `id` يساوي `_id`
+GroupSchema.set('toJSON', {
+  virtuals: true,
+  transform: (_: any, ret: any) => {
+    ret.id = ret._id.toString(); // إضافة `id`
+    delete ret._id; // حذف `_id`
+  },
+});
+
+export { GroupSchema };
