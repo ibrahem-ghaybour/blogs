@@ -2,10 +2,10 @@ import {
   Controller,
   Post,
   Get,
-  Put,
   Delete,
   Param,
   Body,
+  Patch,
 } from '@nestjs/common';
 import { GroupService } from '../services/group.service';
 import { CreateGroupDto } from '../dto/create-group.dto';
@@ -31,7 +31,7 @@ export class GroupController {
     return this.groupService.getGroupById(id);
   }
 
-  @Put(':id')
+  @Patch(':id')
   async updateGroup(
     @Param('id') id: string,
     @Body() updateGroupDto: UpdateGroupDto,

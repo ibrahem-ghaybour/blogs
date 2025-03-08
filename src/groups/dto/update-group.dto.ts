@@ -9,4 +9,7 @@ export class UpdateGroupDto {
   @IsOptional()
   @IsArray()
   blogs?: Types.ObjectId[];
+  @IsOptional()
+  @IsString()
+  icon?: string;
 }

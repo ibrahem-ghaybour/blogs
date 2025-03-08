@@ -8,4 +8,7 @@ export class CreateGroupDto {
   @IsOptional()
   @IsArray()
   blogs?: Types.ObjectId[];
+
+  @IsString()
+  icon?: string;
 }
