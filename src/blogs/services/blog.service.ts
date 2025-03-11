@@ -15,13 +15,21 @@ export class BlogService {
     const blog = await this.blogModel.create(blogData);
     return blog;
   }
-  async getBlogs(): Promise<Blog[]> {
+  async getBlogs(page = 1, limit = 10): Promise<{
+    data:Blog[];
+    total: number,
+    
+  }> {
     const blogs = await this.blogModel.find();
     return blogs;
   }
   async getBlog(id: string): Promise<Blog | null> {
     const blog = await this.blogModel.findById(id);
     return blog;
+  }
+  async getBlogsByGroup(groupId: string): Promise<Blog[]> {
+    const Blogs = await this.blogModel.find({ groupId });
+    return Blogs;
   }
   async updateBlog(id: string, blogData: CreateBlogDto): Promise<Blog | null> {
     const blog = await this.blogModel.findByIdAndUpdate(id, blogData, {

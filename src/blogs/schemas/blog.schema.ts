@@ -13,14 +13,23 @@ export class Blog extends Document {
   @Prop({ required: true, type: String })
   userName: string;
 
-  @Prop({ required: true, type: String })
-  title: string;
+  @Prop({ required: true, type: Object })
+  title: Object;
 
   @Prop({ required: false, type: String })
   avtar: string;
-// الإشارة إلى المجموعة التي تنتمي إليها المدونة
+  // الإشارة إلى المجموعة التي تنتمي إليها المدونة
   @Prop({ type: Types.ObjectId, ref: 'Group', required: true })
   groupId: Group;
 }
 
-export const BlogSchema = SchemaFactory.createForClass(Blog);
+const BlogSchema = SchemaFactory.createForClass(Blog);
+BlogSchema.set('toJSON', {
+  virtuals: true,
+  transform: (_: any, ret: any) => {
+    ret.id = ret._id.toString(); // إضافة `id`
+    delete ret._id; // حذف `_id`
+  },
+});
+
+export { BlogSchema };

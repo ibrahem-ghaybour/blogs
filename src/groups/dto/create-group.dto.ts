@@ -5,6 +5,9 @@ export class CreateGroupDto {
   @IsString()
   name: string;
 
+  @IsString()
+  topic: string;
+
   @IsOptional()
   @IsArray()
   blogs?: Types.ObjectId[];
@@ -12,3 +15,4 @@ export class CreateGroupDto {
   @IsString()
   icon?: string;
 }
+// TOPIC

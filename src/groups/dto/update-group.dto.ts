@@ -7,6 +7,10 @@ export class UpdateGroupDto {
   name?: string;
 
   @IsOptional()
+  @IsString()
+  topic?: string;
+
+  @IsOptional()
   @IsArray()
   blogs?: Types.ObjectId[];
   @IsOptional()

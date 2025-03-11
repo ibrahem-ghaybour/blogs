@@ -47,6 +47,16 @@ export class BlogController {
       throw new NotFoundException(error);
     }
   }
+  @Get('group/:id')
+  async getBlogsByGroup(@Param('id') id: string) {
+    try {
+      const Blogs = await this.blogService.getBlogsByGroup(id);
+      if (!Blogs.length) throw new NotFoundException('Blogs not found');
+      return Blogs;
+    } catch (error) {
+      throw new NotFoundException(error);
+    }
+  }
   @Patch(':id')
   async updateBlog(@Param('id') id: string, @Body() body: CreateBlogDto) {
     try {
