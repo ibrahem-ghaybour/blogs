@@ -7,6 +7,7 @@ import {
   Param,
   Patch,
   Post,
+  Query,
 } from '@nestjs/common';
 import { BlogService } from '../services/blog.service';
 import { CreateBlogDto } from '../dto/create-blog.dto';
@@ -27,10 +28,18 @@ export class BlogController {
   }
 
   @Get()
-  async getBlogs() {
+  async getBlogs(
+    @Query('page') page: number = 1,
+    @Query('limit') limit: number = 10,
+    @Query('search') search: string = '',
+  ) {
     try {
-      const blogs = await this.blogService.getBlogs();
-      if (!blogs.length) throw new NotFoundException('Blogs not found');
+      const blogs = await this.blogService.getBlogs(
+        Number(page),
+        Number(limit),
+        search,
+      );
+      if (!blogs.data?.length) throw new NotFoundException('Blogs not found');
       return blogs;
     } catch (error) {
       throw new NotFoundException(error);

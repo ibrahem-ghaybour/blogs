@@ -15,13 +15,36 @@ export class BlogService {
     const blog = await this.blogModel.create(blogData);
     return blog;
   }
-  async getBlogs(page = 1, limit = 10): Promise<{
-    data:Blog[];
-    total: number,
-    
+  async getBlogs(
+    page = 1,
+    limit = 10,
+    search = '',
+  ): Promise<{
+    data: Blog[];
+    total: number;
+    page: number;
+    pageSize: number;
+    totalPages: number;
   }> {
-    const blogs = await this.blogModel.find();
-    return blogs;
+    const query: any = {};
+    if (search) {
+      query.$or = [
+        { htmlText: { $regex: search, $options: 'i' } },
+        { userName: { $regex: search, $options: 'i' } },
+      ];
+    }
+    const skip = (page - 1) * limit;
+    const [blogs, total] = await Promise.all([
+      this.blogModel.find(query).skip(skip).limit(limit).exec(),
+      this.blogModel.countDocuments().exec(),
+    ]);
+    return {
+      data: blogs,
+      total,
+      page,
+      pageSize: limit,
+      totalPages: Math.ceil(total / limit),
+    };
   }
   async getBlog(id: string): Promise<Blog | null> {
     const blog = await this.blogModel.findById(id);

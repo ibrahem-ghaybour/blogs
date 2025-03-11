@@ -13,8 +13,8 @@ export class Blog extends Document {
   @Prop({ required: true, type: String })
   userName: string;
 
-  @Prop({ required: true, type: Object })
-  title: Object;
+  @Prop({ required: true, type: String })
+  htmlText: String;
 
   @Prop({ required: false, type: String })
   avtar: string;
@@ -24,12 +24,12 @@ export class Blog extends Document {
 }
 
 const BlogSchema = SchemaFactory.createForClass(Blog);
-BlogSchema.set('toJSON', {
-  virtuals: true,
-  transform: (_: any, ret: any) => {
-    ret.id = ret._id.toString(); // إضافة `id`
-    delete ret._id; // حذف `_id`
-  },
-});
+// BlogSchema.set('toJSON', {
+//   virtuals: true,
+//   transform: (_: any, ret: any) => {
+//     ret.id = ret._id.toString(); // إضافة `id`
+//     delete ret._id; // حذف `_id`
+//   },
+// });
 
 export { BlogSchema };
