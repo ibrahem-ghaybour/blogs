@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Blog } from '../schemas/blog.schema';
@@ -38,6 +38,9 @@ export class BlogService {
       this.blogModel.find(query).skip(skip).limit(limit).exec(),
       this.blogModel.countDocuments().exec(),
     ]);
+    if (blogs.length === 0) {
+      throw new NotFoundException('No blogs found');
+    }
     return {
       data: blogs,
       total,

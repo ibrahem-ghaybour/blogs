@@ -6,11 +6,11 @@ export class CreateGroupDto {
   name: string;
 
   @IsString()
-  topic: string;
+  description: string;
 
-  @IsOptional()
-  @IsArray()
-  blogs?: Types.ObjectId[];
+  // @IsOptional()
+  // @IsArray()
+  // blogs?: Types.ObjectId[];
 
   @IsString()
   icon?: string;

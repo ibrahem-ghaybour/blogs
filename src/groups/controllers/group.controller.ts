@@ -6,6 +6,7 @@ import {
   Param,
   Body,
   Patch,
+  Query,
 } from '@nestjs/common';
 import { GroupService } from '../services/group.service';
 import { CreateGroupDto } from '../dto/create-group.dto';
@@ -21,8 +22,16 @@ export class GroupController {
   }
 
   @Get()
-  async getAllGroups() {
-    const groups = this.groupService.getAllGroups();
+  async getAllGroups(
+    @Query('page') page: number = 1,
+    @Query('limit') limit: number = 10,
+    @Query('search') search: string = '',
+  ) {
+    const groups = this.groupService.getAllGroups(
+      Number(page),
+      Number(limit),
+      search,
+    );
     return groups;
   }
 

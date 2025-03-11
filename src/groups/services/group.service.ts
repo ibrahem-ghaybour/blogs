@@ -16,12 +16,43 @@ export class GroupService {
     return newGroup.save();
   }
 
-  async getAllGroups(): Promise<Group[]> {
-    return this.groupModel.find().populate('blogs').exec();
+  async getAllGroups(
+    page = 1,
+    limit = 10,
+    search: string,
+  ): Promise<{
+    data: Group[];
+    total: number;
+    page: number;
+    pageSize: number;
+    totalPages: number;
+  }> {
+    const query: any = {};
+    if (search) {
+      query.$or = [
+        { name: { $regex: search, $options: 'i' } },
+        { description: { $regex: search, $options: 'i' } },
+      ];
+    }
+    const skip = (page - 1) * limit;
+    const [groups, total] = await Promise.all([
+      this.groupModel.find(query).skip(skip).limit(limit).exec(),
+      this.groupModel.countDocuments().exec(),
+    ]);
+    if (groups.length === 0) {
+      throw new NotFoundException('No groups found');
+    }
+    return {
+      data: groups,
+      total,
+      page,
+      pageSize: limit,
+      totalPages: Math.ceil(total / limit),
+    };
   }
 
   async getGroupById(id: string): Promise<Group> {
-    const group = await this.groupModel.findById(id).populate('blogs').exec();
+    const group = await this.groupModel.findById(id).exec();
     if (!group) {
       throw new NotFoundException('Group not found');
     }

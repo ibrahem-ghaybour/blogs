@@ -33,17 +33,12 @@ export class BlogController {
     @Query('limit') limit: number = 10,
     @Query('search') search: string = '',
   ) {
-    try {
-      const blogs = await this.blogService.getBlogs(
-        Number(page),
-        Number(limit),
-        search,
-      );
-      if (!blogs.data?.length) throw new NotFoundException('Blogs not found');
-      return blogs;
-    } catch (error) {
-      throw new NotFoundException(error);
-    }
+    const blogs = await this.blogService.getBlogs(
+      Number(page),
+      Number(limit),
+      search,
+    );
+    return blogs;
   }
 
   @Get(':id')
