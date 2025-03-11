@@ -19,8 +19,8 @@ export class Blog extends Document {
   @Prop({ required: false, type: String })
   avtar: string;
   // الإشارة إلى المجموعة التي تنتمي إليها المدونة
-  @Prop({ type: Types.ObjectId, ref: 'Group', required: true })
-  groupId: Group;
+  @Prop({ required: false, type: String })
+  groupId: string;
 }
 
 const BlogSchema = SchemaFactory.createForClass(Blog);
