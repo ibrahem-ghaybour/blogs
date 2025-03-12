@@ -7,11 +7,13 @@ import {
   Body,
   Patch,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import { GroupService } from '../services/group.service';
 import { CreateGroupDto } from '../dto/create-group.dto';
 import { UpdateGroupDto } from '../dto/update-group.dto';
-
+import { JwtAuthGuard } from 'src/auth/guards/auth.guard';
+@UseGuards(JwtAuthGuard)
 @Controller('groups')
 export class GroupController {
   constructor(private readonly groupService: GroupService) {}
