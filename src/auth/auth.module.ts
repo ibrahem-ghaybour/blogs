@@ -12,7 +12,7 @@ import { JwtStrategy } from './strategies/jwt.strategy';
     MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
     PassportModule,
     JwtModule.register({
-      secret: 'SECRET_KEY', // يجب وضعها في env
+      secret: 'SECRET_KEY',
       signOptions: { expiresIn: '1h' },
     }),
   ],

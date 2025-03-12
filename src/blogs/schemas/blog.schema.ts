@@ -11,7 +11,7 @@ import { Group } from 'src/groups/schemas/group.schema';
 })
 export class Blog extends Document {
   @Prop({ required: true, type: String })
-  userName: string;
+  title: string;
 
   @Prop({ required: true, type: String })
   htmlText: String;
@@ -21,6 +21,9 @@ export class Blog extends Document {
   // الإشارة إلى المجموعة التي تنتمي إليها المدونة
   @Prop({ required: false, type: String })
   groupId: string;
+
+  @Prop({ required: true, type: String })
+  userId: string;
 }
 
 const BlogSchema = SchemaFactory.createForClass(Blog);
