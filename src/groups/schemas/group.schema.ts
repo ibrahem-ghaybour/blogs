@@ -11,6 +11,7 @@ import { Document } from 'mongoose';
     updatedAt: 'updated_at',
   },
 })
+// @indexedDB({ name: 'name', unique: true })
 export class Group extends Document {
   @Prop({ required: true, type: String })
   name: string;
@@ -35,5 +36,5 @@ const GroupSchema = SchemaFactory.createForClass(Group);
 //     delete ret._id; // حذف `_id`
 //   },
 // });
-
+GroupSchema.index({ name: 1, description: 1 });
 export { GroupSchema };
