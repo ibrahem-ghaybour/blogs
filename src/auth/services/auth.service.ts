@@ -4,6 +4,7 @@ import { Model } from 'mongoose';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { User } from '../schemas/user.schema';
+import { SigneUpDto } from '../dtos/signup.dto';
 
 @Injectable()
 export class AuthService {
@@ -12,22 +13,18 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  async signup(
-    name: string,
-    email: string,
-    password: string,
-    admin: boolean = false,
-  ) {
+  async signup({ password, name, email, admin, image }: SigneUpDto) {
     const hashedPassword = await bcrypt.hash(password, 10);
     const newUser = new this.userModel({
       name,
       email,
       admin,
+      image,
       password: hashedPassword,
     });
     await newUser.save();
 
-    const req = { name, email, admin, _id: newUser._id };
+    const req = { name, email, admin, _id: newUser._id, image };
     const token = this.jwtService.sign(req);
     return { ...req, token };
   }
@@ -40,9 +37,15 @@ export class AuthService {
     if (!isPasswordValid)
       throw new UnauthorizedException('Invalid credentials');
 
-    const payload = { userId: user._id, email: user.email, admin: user.admin };
+    const payload = {
+      userId: user._id,
+      email: user.email,
+      admin: user.admin,
+      name: user.name,
+      image: user?.image,
+    };
     const token = this.jwtService.sign(payload);
-
-    return { message: 'Login successful', token };
+    const res = { user: payload, token };
+    return { message: 'Login successful', ...res };
   }
 }

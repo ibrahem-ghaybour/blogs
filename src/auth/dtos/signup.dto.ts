@@ -8,7 +8,10 @@ import {
 
 export class SigneUpDto {
   @IsString()
-  username: string;
+  name: string;
+
+  @IsString()
+  image?: string;
 
   @IsEmail()
   email: string;
@@ -18,7 +21,7 @@ export class SigneUpDto {
 
   @IsString()
   @MinLength(6)
-  password: string; 
+  password: string;
   // @Matches(/((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/, {
   //   message: 'password too weak',
   // })

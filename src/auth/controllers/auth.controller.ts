@@ -8,16 +8,14 @@ import {
 } from '@nestjs/common';
 import { AuthService } from '../services/auth.service';
 import { JwtAuthGuard } from '../guards/auth.guard';
-
+import { SigneUpDto } from '../dtos/signup.dto';
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
 
   @Post('signup')
-  async signup(
-    @Body() body: { name: string; email: string; password: string },
-  ) {
-    return this.authService.signup(body.name, body.email, body.password);
+  async signup(@Body() body: SigneUpDto) {
+    return this.authService.signup(body);
   }
 
   @Post('login')
@@ -29,7 +27,7 @@ export class AuthController {
   @UseGuards(JwtAuthGuard)
   @Get('profile')
   getProfile(@Request() req) {
-    const { name, email, admin, _id } = req.user;
-    return { name, email, admin, _id };
+    const { user } = req;
+    return { ...user };
   }
 }
