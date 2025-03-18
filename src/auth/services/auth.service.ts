@@ -38,14 +38,19 @@ export class AuthService {
       throw new UnauthorizedException('Invalid credentials');
 
     const payload = {
-      userId: user._id,
+      _id: user._id,
       email: user.email,
       admin: user.admin,
       name: user.name,
-      image: user?.image,
+      image: user.image,
     };
     const token = this.jwtService.sign(payload);
     const res = { user: payload, token };
     return { message: 'Login successful', ...res };
+  }
+
+  async updateProfile(id: string, data: { name: string; image: string }) {
+    await this.userModel.findByIdAndUpdate(id, data, { new: true });
+    return { message: 'Profile updated successfully' };
   }
 }

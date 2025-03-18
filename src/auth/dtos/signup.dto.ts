@@ -1,5 +1,6 @@
 import {
   IsBoolean,
+  IsDefined,
   IsEmail,
   IsString,
   Matches,
@@ -11,7 +12,8 @@ export class SigneUpDto {
   name: string;
 
   @IsString()
-  image?: string;
+  @IsDefined()
+  image: string = '';
 
   @IsEmail()
   email: string;
