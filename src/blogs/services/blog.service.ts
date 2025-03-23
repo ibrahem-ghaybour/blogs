@@ -4,11 +4,13 @@ import { Model } from 'mongoose';
 import { Blog } from '../schemas/blog.schema';
 import { CreateBlogDto } from '../dto/create-blog.dto';
 import { Group } from '../../groups/schemas/group.schema';
+import { AppWebSocket } from 'src/app.websocket';
 @Injectable()
 export class BlogService {
   constructor(
     @InjectModel(Blog.name) private blogModel: Model<Blog>,
     @InjectModel(Group.name) private groupModel: Model<Group>,
+    private readonly appWebSocket: AppWebSocket,
   ) {}
 
   async createBlog(blogData: CreateBlogDto): Promise<Blog> {
@@ -61,6 +63,12 @@ export class BlogService {
     const blog = await this.blogModel.findByIdAndUpdate(id, blogData, {
       new: true,
     });
+
+    if (null != blog)
+      this.appWebSocket.publish({
+        data: blog,
+        event: 'app.blogs.blog-updated',
+      });
     return blog;
   }
   async deleteBlog(id: string): Promise<Blog | null> {

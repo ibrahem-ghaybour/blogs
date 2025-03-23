@@ -12,6 +12,7 @@ import {
 import { AuthService } from '../services/auth.service';
 import { JwtAuthGuard } from '../guards/auth.guard';
 import { SigneUpDto } from '../dtos/signup.dto';
+import { UpdateUserDto } from '../dtos/update.dto';
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
@@ -26,7 +27,7 @@ export class AuthController {
     return this.authService.login(body.email, body.password);
   }
 
-  @Patch('profile/:id')
+  @Patch('update/:id')
   @UseGuards(JwtAuthGuard)
   async updateProfile(
     @Body() body: { name: string; image: string },
@@ -48,7 +49,7 @@ export class AuthController {
       _id: req.user._id,
       name: req.user.name,
       email: req.user.email,
-      created_at:  new Date(req.user.iat * 1000).toISOString(),
+      created_at: new Date(req.user.iat * 1000).toISOString(),
       updated_at: new Date(req.user.exp * 1000).toISOString(),
     };
     return { ...user };

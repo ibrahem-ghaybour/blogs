@@ -32,12 +32,12 @@ export class BlogController {
   @Get()
   async getBlogs(
     @Query('page') page: number = 1,
-    @Query('limit') limit: number = 10,
+    @Query('pageSize') pageSize: number = 10,
     @Query('search') search: string = '',
   ) {
     const blogs = await this.blogService.getBlogs(
       Number(page),
-      Number(limit),
+      Number(pageSize),
       search,
     );
     return blogs;

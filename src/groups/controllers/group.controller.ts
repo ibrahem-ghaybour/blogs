@@ -26,13 +26,13 @@ export class GroupController {
   @Get()
   async getAllGroups(
     @Query('page') page: number = 1,
-    @Query('limit') limit: number = 10,
+    @Query('pageSize') pageSize: number = 10,
     @Query('name') name: string = '',
     @Query('description') description: string = '',
   ) {
     const groups = this.groupService.getAllGroups(
       Number(page),
-      Number(limit),
+      Number(pageSize),
       name,
       description,
     );

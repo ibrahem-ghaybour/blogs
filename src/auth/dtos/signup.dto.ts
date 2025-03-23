@@ -22,7 +22,7 @@ export class SigneUpDto {
   admin: boolean = false;
 
   @IsString()
-  @MinLength(6)
+  @MinLength(8)
   password: string;
   // @Matches(/((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/, {
   //   message: 'password too weak',
