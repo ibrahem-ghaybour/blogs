@@ -21,6 +21,8 @@ export class Group extends Document {
   // قائمة تحتوي على جميع المدونات المرتبطة بهذه المجموعة
   // @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Blog' }] })
   // blogs: Blog[];
+  @Prop({ type: String, required: true })
+  userId: string;
 
   @Prop({ type: String })
   icon: string;

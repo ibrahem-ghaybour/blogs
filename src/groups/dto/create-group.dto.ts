@@ -1,5 +1,5 @@
 import { IsString, IsOptional, IsArray } from 'class-validator';
-import { Types } from 'mongoose';
+// import { Types } from 'mongoose';
 
 export class CreateGroupDto {
   @IsString()
@@ -8,6 +8,8 @@ export class CreateGroupDto {
   @IsString()
   description: string;
 
+  @IsString()
+  userId: string;
   // @IsOptional()
   // @IsArray()
   // blogs?: Types.ObjectId[];
