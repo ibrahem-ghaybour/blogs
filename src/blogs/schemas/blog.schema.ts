@@ -1,6 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Types } from 'mongoose';
-import { Group } from 'src/groups/schemas/group.schema';
 @Schema({
   collection: 'blogs',
   versionKey: false,
@@ -14,7 +13,7 @@ export class Blog extends Document {
   title: string;
 
   @Prop({ required: true, type: String })
-  htmlText: String;
+  htmlText: string;
 
   @Prop({ required: false, type: String })
   avtar: string;
@@ -24,6 +23,9 @@ export class Blog extends Document {
 
   @Prop({ required: true, type: String })
   userId: string;
+
+  @Prop({ required: true, type: String })
+  userName: string;
 }
 
 const BlogSchema = SchemaFactory.createForClass(Blog);
@@ -34,5 +36,5 @@ const BlogSchema = SchemaFactory.createForClass(Blog);
 //     delete ret._id; // حذف `_id`
 //   },
 // });
-
+// BlogSchema.index({ title: 1, htmlText: 1 });
 export { BlogSchema };

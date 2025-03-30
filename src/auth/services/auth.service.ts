@@ -21,7 +21,7 @@ export class AuthService {
     password,
     name,
     email,
-    admin = false,
+    role = 'user',
     image = '',
   }: SigneUpDto) {
     try {
@@ -38,14 +38,14 @@ export class AuthService {
       const newUser = new this.userModel({
         name,
         email,
-        admin,
+        role,
         image,
         password: hashedPassword,
       });
       await newUser.save();
 
       // Create JWT Token
-      const payload = { name, email, admin, _id: newUser._id, image };
+      const payload = { name, email, role, _id: newUser._id, image };
       const token = this.jwtService.sign(payload);
 
       return {
@@ -70,7 +70,7 @@ export class AuthService {
       const payload = {
         _id: user._id,
         email: user.email,
-        admin: user.admin,
+        role: user.role,
         name: user.name,
         image: user.image,
       };
@@ -120,6 +120,25 @@ export class AuthService {
       };
     } catch (error) {
       throw new ConflictException(error.message);
+    }
+  }
+  async getUser(id: string) {
+    try {
+      const user = await this.userModel.findById(id);
+      if (!user) {
+        throw new UnauthorizedException('User not found');
+      }
+      return {
+        message: 'User found',
+        user: {
+          _id: user._id,
+          name: user.name,
+          role: user.role,
+          image: user.image,
+        },
+      };
+    } catch (error) {
+      throw new UnauthorizedException(error.message);
     }
   }
 }

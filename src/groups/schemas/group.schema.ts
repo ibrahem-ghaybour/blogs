@@ -38,5 +38,5 @@ const GroupSchema = SchemaFactory.createForClass(Group);
 //     delete ret._id; // حذف `_id`
 //   },
 // });
-GroupSchema.index({ name: 1, description: 1 });
+// GroupSchema.index({ name: 'text', description: 'text' });
 export { GroupSchema };

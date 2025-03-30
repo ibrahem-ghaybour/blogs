@@ -18,8 +18,8 @@ export class SigneUpDto {
   @IsEmail()
   email: string;
 
-  @IsBoolean()
-  admin: boolean = false;
+  @IsString()
+  role: string = 'user';
 
   @IsString()
   @MinLength(8)

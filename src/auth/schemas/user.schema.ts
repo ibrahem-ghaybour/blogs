@@ -17,8 +17,8 @@ export class User extends Document {
   @Prop({ required: true, type: String })
   password: string;
 
-  @Prop({ required: false, type: Boolean })
-  admin: boolean;
+  @Prop({ required: false, type: String })
+  role: string;
 
   @Prop({ type: String, required: false })
   image: string;

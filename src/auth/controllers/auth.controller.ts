@@ -49,9 +49,16 @@ export class AuthController {
       _id: req.user._id,
       name: req.user.name,
       email: req.user.email,
+      role: req.user.role,
       created_at: new Date(req.user.iat * 1000).toISOString(),
       updated_at: new Date(req.user.exp * 1000).toISOString(),
     };
     return { ...user };
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('users/:id')
+  getUser(@Param('id') id: string) {
+    return this.authService.getUser(id);
   }
 }

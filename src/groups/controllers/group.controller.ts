@@ -27,14 +27,12 @@ export class GroupController {
   async getAllGroups(
     @Query('page') page: number = 1,
     @Query('pageSize') pageSize: number = 10,
-    @Query('name') name: string = '',
-    @Query('description') description: string = '',
+    @Query('search') search: string = '',
   ) {
     const groups = this.groupService.getAllGroups(
       Number(page),
       Number(pageSize),
-      name,
-      description,
+      search,
     );
     return groups;
   }

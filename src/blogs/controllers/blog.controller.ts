@@ -5,6 +5,7 @@ import {
   Get,
   NotFoundException,
   Param,
+  Request,
   Patch,
   Post,
   Query,
@@ -54,18 +55,35 @@ export class BlogController {
     }
   }
   @Get('group/:id')
-  async getBlogsByGroup(@Param('id') id: string) {
+  async getBlogsByGroup(
+    @Query('page') page: number = 1,
+    @Query('pageSize') pageSize: number = 10,
+    @Param('id') id: string,
+    @Query('search') search: string = '',
+  ) {
     try {
-      const Blogs = await this.blogService.getBlogsByGroup(id);
-      if (!Blogs.length) throw new NotFoundException('Blogs not found');
+      const Blogs = await this.blogService.getBlogs(
+        Number(page),
+        Number(pageSize),
+        search,
+        id,
+      );
+      // if (!Blogs.data.length) throw new NotFoundException('Blogs not found');
       return Blogs;
     } catch (error) {
       throw new NotFoundException(error);
     }
   }
   @Patch(':id')
-  async updateBlog(@Param('id') id: string, @Body() body: CreateBlogDto) {
+  async updateBlog(
+    @Param('id') id: string,
+    @Body() body: CreateBlogDto,
+    @Request() req,
+  ) {
     try {
+      const blog_from_db = await this.blogService.getBlog(id);
+      if (req.user.role !== 'admin' && req.user._id !== blog_from_db?.userId)
+        throw new NotFoundException('You are not admin');
       const blog = await this.blogService.updateBlog(id, body);
       if (!blog) throw new NotFoundException('Blog not found');
       return blog;

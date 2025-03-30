@@ -9,5 +9,5 @@ export class UpdateUserDto {
   image?: string = '';
 
   @IsBoolean()
-  admin?: boolean = false;
+  role?: string;
 }

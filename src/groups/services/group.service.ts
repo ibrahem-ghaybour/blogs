@@ -19,8 +19,7 @@ export class GroupService {
   async getAllGroups(
     page = 1,
     limit = 10,
-    name: string,
-    description: string,
+    search = '',
   ): Promise<{
     data: Group[];
     total: number;
@@ -28,20 +27,16 @@ export class GroupService {
     pageSize: number;
     totalPages: number;
   }> {
-    // const query: any = {};
-    // if (search) {
-    //   query.$or = [
-    //     { name: { $regex: search, $options: 'i' } },
-    //     { description: { $regex: search, $options: 'i' } },
-    //   ];
-    // }
+    const query: any = {};
+    if (search) {
+      query.$or = [
+        { name: { $regex: search, $options: 'i' } },
+        { description: { $regex: search, $options: 'i' } },
+      ];
+    }
     const skip = (page - 1) * limit;
     const [groups, total] = await Promise.all([
-      this.groupModel
-        .find(name ? { name } : description ? { description } : {})
-        .skip(skip)
-        .limit(limit)
-        .exec(),
+      this.groupModel.find(query).skip(skip).limit(limit).exec(),
       this.groupModel.countDocuments().exec(),
     ]);
     if (groups.length === 0) {
