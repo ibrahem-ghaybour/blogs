@@ -60,10 +60,11 @@ export class CommentService {
     page = 1,
     limit = 10,
   ): Promise<{
-    comments: Comment[];
+    data: Comment[];
     total: number;
     totalPages: number;
     page: number;
+    pageSize: number;
   }> {
     const skip = (page - 1) * limit;
     const total = await this.commentModel.countDocuments();
@@ -74,6 +75,6 @@ export class CommentService {
       .skip(skip)
       .limit(limit)
       .exec();
-    return { comments, total, totalPages, page };
+    return { data: comments, total, totalPages, page, pageSize: limit };
   }
 }

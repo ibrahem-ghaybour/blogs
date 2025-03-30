@@ -6,7 +6,11 @@ export interface WebSocketEvent<T> {
   data: T;
 }
 
-@WebSocketGateway({ transports: ['websocket'], cors: '*', namespace: 'socket.io' })
+@WebSocketGateway({
+  transports: ['websocket'],
+  cors: '*',
+  namespace: 'socket.io',
+})
 export class AppWebSocket {
   @WebSocketServer()
   server: Server;

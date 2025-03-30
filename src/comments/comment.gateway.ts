@@ -13,6 +13,7 @@ import { UpdateCommentDto } from './dto/update-comment.dto';
 
 @WebSocketGateway({
   cors: { origin: '*' }, // Allow all origins (Modify for security)
+  credentials: true,
 })
 export class CommentGateway {
   @WebSocketServer()

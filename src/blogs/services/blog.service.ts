@@ -3,13 +3,12 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model, FilterQuery } from 'mongoose';
 import { Blog } from '../schemas/blog.schema';
 import { CreateBlogDto } from '../dto/create-blog.dto';
-import { Group } from '../../groups/schemas/group.schema';
+// import { Group } from '../../groups/schemas/group.schema';
 import { AppWebSocket } from 'src/app.websocket';
 @Injectable()
 export class BlogService {
   constructor(
     @InjectModel(Blog.name) private blogModel: Model<Blog>,
-    @InjectModel(Group.name) private groupModel: Model<Group>,
     private readonly appWebSocket: AppWebSocket,
   ) {}
 

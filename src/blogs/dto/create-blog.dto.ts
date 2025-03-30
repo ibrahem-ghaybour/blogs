@@ -4,5 +4,5 @@ export class CreateBlogDto {
   readonly groupId: string;
   readonly htmlText: string;
   readonly userName: string;
-  readonly avtar?: string;
+  readonly avatar?: string;
 }

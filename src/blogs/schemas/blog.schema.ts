@@ -16,7 +16,7 @@ export class Blog extends Document {
   htmlText: string;
 
   @Prop({ required: false, type: String })
-  avtar: string;
+  avatar: string;
   // الإشارة إلى المجموعة التي تنتمي إليها المدونة
   @Prop({ required: false, type: String })
   groupId: string;
